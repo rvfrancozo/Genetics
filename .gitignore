@@ -16,3 +16,4 @@ bin/hardConstraints/Terminator.class
 bin/Population/TimetableGenerator.class
 bin/Util/showTimetable.class
 bin/Util/Timetable.class
+bin/TimetableIFMS.class

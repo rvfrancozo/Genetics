@@ -52,11 +52,12 @@ public class TimetableGenerator {
 			if (data.get(r).getSemanalLessons() <= 0)
 				data.remove(r);
 
-			gene.add(event_id);
-			gene.add(hour_id);
-			gene.add(day_id);
-			gene.add(duration);
-			gene.add(classroom_id);
+			gene.add(event_id); 	//ID do Evento no csv
+			gene.add(hour_id); 		//ID do horário em TimesControl
+			gene.add(day_id);		//ID do dia em WeekDayControl
+			gene.add(duration);		//INT da duração
+			gene.add(classroom_id);	//ID da sala em ClassroomControl
+
 		}
 
 		int[] chromosome = new int[gene.size()];

@@ -9,6 +9,7 @@ import dataLoader.TimeControl;
 import dataLoader.TimeModel;
 import dataLoader.WeekDayControl;
 import dataLoader.WeekDayModel;
+import hardConstraints.HardCalculator;
 
 public class showTimetable {
 
@@ -17,7 +18,6 @@ public class showTimetable {
 	private ArrayList<ClassroomModel> classrooms = new ClassroomControl().Classroom();
 
 	public showTimetable(int[] timetable, ArrayList<DataModel> data) {
-
 		for (int i = 0; i < timetable.length; i += 5) {
 			for (DataModel d : data) {
 				if (d.getIndex() == timetable[i]) {
@@ -50,12 +50,18 @@ public class showTimetable {
 		}
 		
 		showChromosome(timetable);
+		showScore(timetable);
 	}
 
 	public void showChromosome(int[] timetable) {
 		for (int i = 0; i < timetable.length; i++)
 			System.out.print(timetable[i]);
 		System.out.println();
+	}
+	
+	public void showScore(int[] timetable) {
+		int score = new HardCalculator().Score(timetable);
+		System.out.println("\nScore: " + score);
 	}
 
 }

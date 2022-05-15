@@ -10,6 +10,7 @@ import dataLoader.TimeControl;
 import dataLoader.TimeModel;
 import dataLoader.WeekDayControl;
 import dataLoader.WeekDayModel;
+import hardConstraints.HardCalculator;
 
 public class Timetable {
 	
@@ -17,14 +18,24 @@ public class Timetable {
 	private ArrayList<TimeModel> times = new TimeControl().Times();
 	private ArrayList<WeekDayModel> days = new WeekDayControl().WeekDays();
 	private ArrayList<ClassroomModel> classrooms = new ClassroomControl().Classroom();
-	
 	private int[] timetable = new TimetableGenerator().Generator(data, times, days, classrooms);
 	
 	public Timetable() {
 		
-		data = new DataControl().loader("data.csv");
-	
-		new showTimetable(timetable, data);
-	}
+		int score = new HardCalculator().Score(timetable); 
+		
+		do {
+			data = new DataControl().loader("data.csv");
+			timetable = new TimetableGenerator().Generator(data, times, days, classrooms);
+			
+			if(score > new HardCalculator().Score(timetable)) {
+				score = new HardCalculator().Score(timetable);
+				//System.out.println("Score: " + score);
+			}
+				
+		} while(score > 0);
 
+		new showTimetable(timetable, data);
+		
+	}
 }

@@ -27,18 +27,21 @@ public class Timetable {
 		do {
 			data = new DataControl().loader("data.csv");
 			timetable = new TimetableGenerator().Generator(data, times, days, classrooms);
-			if(score > new HardCalculator().Score(timetable)) 
+			if(score > new HardCalculator().Score(timetable)) {
 				score = new HardCalculator().Score(timetable);
+				//System.out.println("Score: " + score); //descomente essa para testar
+			}
+				
 		} while(score > 0);
 		data = new DataControl().loader("data.csv");
-		new showTimetable(timetable, data);
-		
-//		do {
-//			data = new DataControl().loader("data.csv");
-//			timetable = new TimetableGenerator().Generator(data, times, days, classrooms);
-//			System.out.println("Score: " + new HardCalculator().Score(timetable));
-//		} while(true);
-		
+		new showTimetable(timetable, data); //comente essa para testar
+		/*
+		do {
+			data = new DataControl().loader("data.csv");
+			timetable = new TimetableGenerator().Generator(data, times, days, classrooms);
+			System.out.println("Score: " + new HardCalculator().Score(timetable));
+		} while(true);
+		*/
 		
 	}
 }

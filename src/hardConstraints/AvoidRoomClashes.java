@@ -26,7 +26,6 @@ public class AvoidRoomClashes implements Score {
 			}
 		}
 		
-		
 		return score+next.calculator(chromosome);
 	}
 

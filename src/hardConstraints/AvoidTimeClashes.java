@@ -11,7 +11,23 @@ public class AvoidTimeClashes implements Score {
 
 	@Override
 	public int calculator(int[] chromosome) {
-		return next.calculator(chromosome);
+		int score = 0;
+
+		if(hour_id <= 6) {
+			//manhã 
+			if(hour_id + duration > 6)
+				++score;
+		} else if(hour_id <= 13) {
+			//tarde
+			if(hour_id + duration > 13)
+				++score;
+		} else {
+			//noite
+			if(hour_id + duration > 18)
+				++score;
+		}
+
+		return score+next.calculator(chromosome);
 	}
 
 	@Override

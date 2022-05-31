@@ -27,7 +27,7 @@ public class IntervaloEntreJornadas implements Score {
 
 	@Override
 	public void setNext(Score next) {
-		// TODO Auto-generated method stub
+		
 		
 	}
-}
+}	// atz agr

@@ -11,7 +11,7 @@ public class AvoidRoomClashes implements Score {
 		for(int i = 0; i < chromosome.length; i+=5) {
 			//int event_id = chromosome[0]; //unico não usado aqui 
 			int hour_id = chromosome[i+1]; 
-			int day_id = chromosome[i+2];
+			int day_id = chromosome[i+2]; //0 1 2 3 4
 			int duration = chromosome[i+3]; 
 			int classroom_id = chromosome[i+4];
 			

@@ -1,15 +1,20 @@
 package hardConstraints;
 
-public class Terminator implements Score {
+import java.util.ArrayList;
+
+import dataLoader.TimetableModel;
+
+public class Terminator implements HardScore {
 
 	@Override
-	public int calculator(int[] chromosome) {
+	public int calcula(TimetableModel tt, ArrayList<TimetableModel> timetable) {
 		return 0;
 	}
 
 	@Override
-	public void setNext(Score next) {
+	public void setNext(HardScore next) {
 		
 	}
+
 
 }

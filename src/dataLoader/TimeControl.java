@@ -27,10 +27,10 @@ public class TimeControl {
 		
 		//Night
 		times.add(new TimeModel(15,3,"19h00-19h45",""));
-		times.add(new TimeModel(16,3,"19h45-20h30","")); //se a aula termina aqui ele nใo pode pegar o 1บ horario no dia seguinte
-		times.add(new TimeModel(17,3,"20h30-21h15","")); //se a aula termina aqui ele nใo pode pegar o 1บ e o 2บ horario no dia seguinte
-		times.add(new TimeModel(18,3,"21h30-22h15","")); //se a aula termina aqui ele nใo pode pegar o 1บ e o 2บ e 3บ horario no dia seguinte
-		times.add(new TimeModel(19,3,"22h15-23h00","")); //se a aula termina aqui ele nใo pode pegar o 1บ, 2บ, 3บ e 4บ horario no dia seguinte
+		times.add(new TimeModel(16,3,"19h45-20h30","")); //se a aula termina aqui ele nรฃo pode pegar o 1ยบ horario no dia seguinte
+		times.add(new TimeModel(17,3,"20h30-21h15","")); //se a aula termina aqui ele nรฃo pode pegar o 1ยบ e o 2ยบ horario no dia seguinte
+		times.add(new TimeModel(18,3,"21h30-22h15","")); //se a aula termina aqui ele nรฃo pode pegar o 1ยบ e o 2ยบ e 3ยบ horario no dia seguinte
+		times.add(new TimeModel(19,3,"22h15-23h00","")); //se a aula termina aqui ele nรฃo pode pegar o 1ยบ, 2ยบ, 3ยบ e 4ยบ horario no dia seguinte
 		
 		return times;
 	}

@@ -55,13 +55,13 @@ public class showTimetable {
 
 	public void showChromosome(int[] timetable) {
 		for (int i = 0; i < timetable.length; i++)
-			System.out.print(timetable[i]);
+			System.out.print(timetable[i]+"-");
 		System.out.println();
 	}
 	
 	public void showScore(int[] timetable) {
-		int score = new HardCalculator().Score(timetable);
-		System.out.println("\nScore: " + score);
+		//int score = new HardCalculator().Score(timetable);
+		//System.out.println("\nScore: " + score);
 	}
 
 }

@@ -1,71 +1,102 @@
 package Population;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
+
+import Util.DurationGenerator;
 import dataLoader.ClassroomModel;
 import dataLoader.DataModel;
 import dataLoader.TimeModel;
+import dataLoader.TimetableModel;
 import dataLoader.WeekDayModel;
+import hardConstraints.HardCalculator;
 
 public class TimetableGenerator {
 
-	public int[] Generator(ArrayList<DataModel> data, ArrayList<TimeModel> times, ArrayList<WeekDayModel> days,
+	public ArrayList<TimetableModel> Generator(
+			ArrayList<DataModel> data, 
+			ArrayList<TimeModel> times, 
+			ArrayList<WeekDayModel> days,
 			ArrayList<ClassroomModel> classrooms) {
-		int event_id = 0, hour_id = 0, day_id = 0, duration = 0, classroom_id = 0, tmp;
-
-		List<Integer> gene = new ArrayList<Integer>();
+		ArrayList<TimetableModel> timetable = new ArrayList<TimetableModel>();
+		TimetableModel tt = new TimetableModel();
 
 		while (data.size() > 0) {
-			int r = new Random().nextInt(data.size());
 
-			// Event Gene
-			event_id = data.get(r).getIndex();
-
-			// Hour Gene
+			TimetableModel temp;
+			int r;
 			do {
-				tmp = new Random().nextInt(times.size());
-				hour_id = times.get(tmp).getIndex();
-			} while (times.get(tmp).getShift() != data.get(r).getShift());
-
-			// Day Gene
-			day_id = days.get(new Random().nextInt(days.size())).getIndex();
-
-			// Duration Gene
-			if (data.get(r).getSemanalLessons() >= data.get(r).getMaxDailylLessons()) {
-				duration = new Random()
-						.nextInt(1 + data.get(r).getMaxDailylLessons() - data.get(r).getMinDailylLessons());
-			} else if (data.get(r).getSemanalLessons() >= data.get(r).getMinDailylLessons()) {
-				duration = new Random()
-						.nextInt(1 + data.get(r).getSemanalLessons() - data.get(r).getMinDailylLessons());
-			}
-			duration += data.get(r).getMinDailylLessons();
-
-			data.get(r).setSemanalLessons(data.get(r).getSemanalLessons() - duration);
-
-			// Classroom Gene 
-			do {
-				classroom_id = new Random().nextInt(classrooms.size());
-			} while (classrooms.get(classroom_id).getCod_type() != data.get(r).getClassRoomType());
-
+				r = new Random().nextInt(data.size());				
+				
+				//Classroom Gene
+				int classroom = 0;
+				if(data.get(r).getClassRoomType() == 2) 
+					classroom = new Random().nextInt(17-9)+9;
+				else 
+					classroom = new Random().nextInt(17);
+				
+				
+				//Duration Gene
+				int duration = new DurationGenerator().getDuration(
+						data.get(r).getSemanalLessons(),
+						data.get(r).getMinDailylLessons(),
+						data.get(r).getMaxDailylLessons());
+				
+				//Start Time
+				int start;
+				if(data.get(r).getShift() != 3)
+					start = 1 + new Random().nextInt(8 - duration) + 7 * (data.get(r).getShift() - 1);
+				else
+					start = 1 + new Random().nextInt(6 - duration);			
+				
+				
+				//End Time
+				int end = start + duration - 1;
+				
+				
+				//Add Timetable
+				temp = new TimetableModel(
+						data.get(r).getIndex(), 
+						data.get(r).getCourse(), 
+						data.get(r).getClasses(), 
+						data.get(r).getArea(), 
+						data.get(r).getSubject(), 
+						data.get(r).getTeacher(),
+						days.get(new Random().nextInt(days.size())).getIndex(), 
+						data.get(r).getShift(), 
+						start, 
+						end, 
+						duration, 
+						classroom //classrooms.get(new Random().nextInt(classrooms.size())).getIndex()
+						);
+				
+				//Deduct assigned duration
+				if(new HardCalculator().Score(temp, timetable) == 0)
+					data.get(r).setSemanalLessons( data.get(r).getSemanalLessons() - duration );
+				
+				
+			} while(new HardCalculator().Score(temp, timetable) > 0);
+			
+			timetable.add(temp);
+			
 			//Remove lesson
-			if (data.get(r).getSemanalLessons() <= 0)
+			if(data.get(r).getSemanalLessons() <= 0)
 				data.remove(r);
 
-			gene.add(event_id); 	//ID do Evento no csv
-			gene.add(hour_id); 		//ID do horário em TimesControl
-			gene.add(day_id);		//ID do dia em WeekDayControl
-			gene.add(duration);		//INT da duração
-			gene.add(classroom_id);	//ID da sala em ClassroomControl
-
+		}
+		
+		for(TimetableModel t : timetable) {
+			System.out.println("Professor: " + t.getTeacher());
+			System.out.println("Disciplina: " + t.getSubject());
+			System.out.println("Curso / Turma: " + t.getCourse() + " / " + t.getClasses());
+			System.out.println("Carga Horária: " + t.getDuration() + " h/a");
+			System.out.println("Sala: " + t.getClassRoom() + " - " +classrooms.get(t.getClassRoom()-1).getName()  );
+			System.out.println("Horário: " +  days.get(t.getDay()-1).getDayNamePt() + " das " +
+			times.get(t.getStart()-1).getDescr().substring(0, 5) + " às " + times.get(t.getEnd()).getDescr().substring(0, 5) );
+			System.out.println();
 		}
 
-		int[] chromosome = new int[gene.size()];
-
-		for (int i = 0; i < gene.size(); i++)
-			chromosome[i] = gene.get(i);
-
-		return chromosome;
+		return timetable;
 	}
 
 }
